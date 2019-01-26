@@ -1,32 +1,32 @@
-.App {
-  text-align: center;
+#root {
+  height: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.page {
+  height: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#nav {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  top:0;
+  border: none;
 }
 
-.App-link {
-  color: #61dafb;
+#exampleImg {
+  width: 100%;
+  height: auto;
+}
+.jumbotron {
+  margin: 5em auto;
+  padding: 50px;
+  background-color: gainsboro;
+  border-radius: 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#home,#Page{
+  margin-bottom: 10%;
+  margin-right: 10%;
+  margin-left: 10%;
 }
