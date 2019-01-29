@@ -20,18 +20,14 @@ function App() {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={1} href="#">
-                                Link
+                            <NavItem eventKey={1} href="/#about">
+                                About
                             </NavItem>
-                            <NavItem eventKey={2} href="#">
-                                Link
-                            </NavItem>
-                            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                                <MenuItem eventKey={3.1}>Action</MenuItem>
-                                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                                <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                            <NavDropdown eventKey={3} title="Tutorials" id="basic-nav-dropdown">
+                                <MenuItem eventKey={3.1} href="https://developer.github.com/v4/">GitHub API</MenuItem>
+                                <MenuItem eventKey={3.2} href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Create a Private Token</MenuItem>
                                 <MenuItem divider />
-                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                                <MenuItem eventKey={3.3} href="https://github.com/TianqiCS/GitMap">GitHub Repo</MenuItem>
                             </NavDropdown>
                         </Nav>
                         <Nav pullRight>
@@ -100,8 +96,8 @@ class Home extends React.Component {
                         <Panel.Title componentClass="h3">About</Panel.Title>
                     </Panel.Heading>
                     <Panel.Body>
-                        <p><a href="http://somewhere">GitRepo</a></p>
-                        <p>Made by <Link to="/TianqiCS/">Tianqi Wang</Link></p>
+                        <p><a href="https://github.com/TianqiCS/GitMap">GitRepo</a></p>
+                        <p>Made by <Link to="/TianqiCS">Tianqi Wang</Link></p>
                         <p>Last Updated on 2019-01-26</p>
                     </Panel.Body>
                 </Panel>
