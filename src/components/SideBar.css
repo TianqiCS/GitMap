@@ -1,0 +1,45 @@
+.SideBar {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    border-left: 5px dimgray;
+    overflow-x: hidden;
+    padding-top: 60px;
+    opacity: 0.8;
+    background: lemonchiffon;
+}
+
+.SideBarButton {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    padding-top: 60px;
+}
+
+.SideBar a {
+    text-decoration: none;
+    color: indianred;
+    display: block;
+    transition: 0.3s;
+}
+
+.SideBar a:hover {
+    color: crimson;
+}
+
+.nav-tabs {
+    font-size: 10px;
+}
+
+.tableImg {
+    width: 10%;
+    height: auto;
+}
+
+@media screen and (max-height: 450px) {
+
+}
+

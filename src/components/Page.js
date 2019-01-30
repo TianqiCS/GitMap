@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Network, Node, Edge } from '@lifeomic/react-vis-network';
 import {fetchNodes} from "../utils/networks";
-import {Alert} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
+import SideBar from "./SideBar";
 
 
 export default class Page extends Component {
@@ -18,6 +19,9 @@ export default class Page extends Component {
                 following: [],
             },
             options: {
+                manipulation: {
+                    enabled: true
+                },
                 "edges": {
                     smooth: {
                         "type": "dynamic",
@@ -28,6 +32,7 @@ export default class Page extends Component {
             }
         };
         this.networkRef = React.createRef();
+
     }
 
     componentDidMount() {
@@ -48,7 +53,7 @@ export default class Page extends Component {
                 this.networkRef.current.network.on("doubleClick", this.handleDoubleClick);
             }
             else {
-                this.setState({error: data.data.error})
+                this.setState({error: data.data.errors})
             }
         });
 
@@ -98,22 +103,34 @@ export default class Page extends Component {
     render() {
         if (this.state.user.userId && !this.state.error) {
             return (
-                <Network className="network" ref={this.networkRef} options={this.state.options}>
-                    <Node id={this.state.user.userId} label={this.state.user.userId} shape='circularImage'
-                          image={this.state.user.avatarUrl}/>
-                    {this.state.user.following.map(this.onlyFollowing)}
-                    {this.state.user.followers.map(this.onlyFollower)}
-                </Network>
+                <div className="page">
+                    <Network className="network" ref={this.networkRef} options={this.state.options}>
+                        <Node id={this.state.user.userId} label={this.state.user.userId} shape='circularImage'
+                              image={this.state.user.avatarUrl}/>
+                        {this.state.user.following.map(this.onlyFollowing)}
+                        {this.state.user.followers.map(this.onlyFollower)}
+                    </Network>
+                    <SideBar followers={this.state.user.followers} following={this.state.user.following} display={this.state.displaySideBar} network={this.networkRef}/>
+                    <Button variant="outline-primary"
+                            className="SideBarButton"
+                            onClick={()=>{this.setState({displaySideBar: !this.state.displaySideBar})}}>
+                        Menu
+                    </Button>
+                </div>
             );
         } else if (this.state.error){
+            console.log(this.state.error);
             return (
                 <div id="Page">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <Alert bsStyle="danger" onDismiss={()=>{window.location.pathname=""}}>
                         <h4>Oh snap! You got an error!</h4>
                         <p>Your query cannot be fulfilled.</p>
-                        <p>These are the possible reasons:</p>
-                        <ul>The user does not exist.</ul>
-                        <ul>The server is not available.</ul>
+                        <p>These are the error logs:</p>
+                        {this.state.error.map(error=><ul>{"["+error.type+"] "+error.message}</ul>)}
                     </Alert>
                 </div>
             );
