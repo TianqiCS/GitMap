@@ -19,8 +19,8 @@ export default class Page extends Component {
                 following: [],
             },
             options: {
-                manipulation: {
-                    enabled: true
+                "manipulation": {
+                    enabled: true,
                 },
                 "edges": {
                     smooth: {
@@ -32,7 +32,9 @@ export default class Page extends Component {
             }
         };
         this.networkRef = React.createRef();
-
+        this.deleteNodebyEdge = this.deleteNodebyEdge.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +53,7 @@ export default class Page extends Component {
                     }
                 });
                 this.networkRef.current.network.on("doubleClick", this.handleDoubleClick);
+                this.networkRef.current.network.on("oncontext", this.handleContext);
             }
             else {
                 this.setState({error: data.data.errors})
@@ -83,9 +86,6 @@ export default class Page extends Component {
                 <Edge id={user.login} from={this.state.user.userId} to={user.login} arrows="to" color={{inherit:'to'}}/>
             ]
         }
-        else {
-            return <></>
-        }
     };
 
     handleDoubleClick = (event) => {
@@ -94,22 +94,54 @@ export default class Page extends Component {
         }
     };
 
+    handleContext = (event) => {
+        this.networkRef.current.network.deleteSelected();
+        console.log(event);
+        event.edges.forEach((element)=>{
+            this.deleteNodebyEdge(element);
+        });
+    };
 
+    deleteNodebyEdge(edge) {
+        let user =  this.state.user;
+        user.followers = this.state.user.followers.filter(e => e.login !== edge);
+        user.following = this.state.user.following.filter(e => e.login !== edge);
+        this.setState({
+            user: user
+        });
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        this.deleteNodebyEdge(this.state.value);
+        event.preventDefault();
+    }
 
     /*
 
 */
 
     render() {
+        console.log(this.networkRef);
         if (this.state.user.userId && !this.state.error) {
             return (
                 <div className="page">
                     <Network className="network" ref={this.networkRef} options={this.state.options}>
                         <Node id={this.state.user.userId} label={this.state.user.userId} shape='circularImage'
                               image={this.state.user.avatarUrl}/>
-                        {this.state.user.following.map(this.onlyFollowing)}
+                        {this.state.user.following.filter((user)=>{return !this.state.user.followers.some(u => u.login === user.login)}).map(this.onlyFollowing)}
                         {this.state.user.followers.map(this.onlyFollower)}
                     </Network>
+                    <form onSubmit={this.handleSubmit}>
+                        <label>
+                            Name:
+                            <input type="text" value={this.state.value} onChange={this.handleChange} />
+                        </label>
+                        <input type="submit" value="Submit" />
+                    </form>
                     <SideBar followers={this.state.user.followers} following={this.state.user.following} display={this.state.displaySideBar} network={this.networkRef}/>
                     <Button variant="outline-primary"
                             className="SideBarButton"
